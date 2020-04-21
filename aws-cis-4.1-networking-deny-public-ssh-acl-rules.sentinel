@@ -1,7 +1,6 @@
 # aws-cis-4.1-networking-deny-public-ssh-acl-rules.sentinel
 # from https://github.com/mikegreen/terraform-foundational-policies-library/tree/master/cis/aws/networking/aws-cis-4.1-networking-deny-public-ssh-acl-rules
 
-
 import "tfplan/v2" as tfplan
 
 public_ssh_acls = filter tfplan.resource_changes as _, resource_changes {
@@ -14,13 +13,13 @@ public_ssh_acls = filter tfplan.resource_changes as _, resource_changes {
 			resource_changes.change.actions is ["update"])
 }
 
-public_ssh_acls_sg = filter tfplan.resource_changes as _, rc {
+public_ssh_sg = filter tfplan.resource_changes as _, rc {
 	rc.mode is "managed" and
-		rc.type is "aws_security_group" and
+	rc.type is "aws_security_group" and
   	# resource_changes.change.after.type is "ingress" and
-		# rc.change.after.cidr_blocks is "0.0.0.0/0" and
-		rc.change.after.to_port is 22 and
-		(rc.change.actions contains "create" or
+	# rc.change.after.cidr_blocks is "0.0.0.0/0" and
+	rc.change.after.ingress.to_port is 22 and
+	(rc.change.actions contains "create" or
 			rc.change.actions is ["update"])
 }
 
@@ -28,17 +27,17 @@ public_ssh_acls_sg = filter tfplan.resource_changes as _, rc {
 print("CIS 4.1: Ensure no security groups allow ingress from 0.0.0.0/0 to port 22")
 
 print(length(public_ssh_acls))
-print(length(public_ssh_acls_sg))
+print(length(public_ssh_sg))
 
 deny_public_ssh_acl_rules = rule {
 	length(public_ssh_acls) == 0
 }
 
 deny_public_ssh_sg_rules = rule {
-	length(public_ssh_acls_sg) == 0
+	length(public_ssh_sg) == 0
 }
 
 main = rule {
 	deny_public_ssh_acl_rules and
-  deny_public_ssh_sg_rules
+  	deny_public_ssh_sg_rules
 }
