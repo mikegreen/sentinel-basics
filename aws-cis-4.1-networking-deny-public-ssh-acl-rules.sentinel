@@ -17,7 +17,7 @@ public_ssh_sg = filter tfplan.resource_changes as _, rc {
 	rc.mode is "managed" and
 	rc.type is "aws_security_group" and
   	# resource_changes.change.after.type is "ingress" and
-	rc.change.after.cidr_blocks is "0.0.0.0/0" and
+	rc.change.ingress.after.cidr_blocks is "0.0.0.0/0" and
 	# rc.change.after.to_port is 22 and
 	(rc.change.actions contains "create" or
 			rc.change.actions is ["update"])
