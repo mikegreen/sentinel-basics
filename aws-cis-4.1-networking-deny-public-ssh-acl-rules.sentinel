@@ -3,6 +3,8 @@
 
 import "tfplan/v2" as tfplan
 
+print("CIS 4.1: Ensure no security groups allow ingress from 0.0.0.0/0 to port 22")
+
 public_ssh_acls = filter tfplan.resource_changes as _, resource_changes {
 	resource_changes.mode is "managed" and
 		resource_changes.type is "aws_network_acl_rule" and
@@ -13,12 +15,16 @@ public_ssh_acls = filter tfplan.resource_changes as _, resource_changes {
 			resource_changes.change.actions is ["update"])
 }
 
+print("public_ssh_acls length", length(public_ssh_acls))
+
 allSSHPublicSGs = filter tfplan.resource_changes as _, rc {
 	rc.mode is "managed" and
 	rc.type is "aws_security_group" and
 	(rc.change.actions contains "create" or
 		rc.change.actions is ["update"])
 }
+
+print("allSSHPublicSGs length", length(allSSHPublicSGs))
 
 deny_public_ssh_sg_rules = rule {
 	all allSSHPublicSGs.after.ingress as _, ingress {
@@ -27,10 +33,6 @@ deny_public_ssh_sg_rules = rule {
 	}
 }
 
-print("CIS 4.1: Ensure no security groups allow ingress from 0.0.0.0/0 to port 22")
-
-print("public_ssh_acls length", length(public_ssh_acls))
-print("allSSHPublicSGs length", length(allSSHPublicSGs))
 
 deny_public_ssh_acl_rules = rule {
 	length(public_ssh_acls) == 0
