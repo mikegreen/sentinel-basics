@@ -37,6 +37,7 @@ deny_public_ssh_sg_rules = rule {
 	all all_security_groups.change.after.ingress as _, ingress {
 		ingress.to_port is 22 
 	}
+	else {}
 }
 
 print("deny_public_ssh_sg_rules value: ", deny_public_ssh_sg_rules)
