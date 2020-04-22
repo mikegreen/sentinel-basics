@@ -39,6 +39,6 @@ deny_public_ssh_acl_rules = rule {
 }
 
 main = rule {
-	deny_public_ssh_acl_rules
-#  	and deny_public_ssh_sg_rules
+	deny_public_ssh_acl_rules and
+  	deny_public_ssh_sg_rules
 }
