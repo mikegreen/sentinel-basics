@@ -34,10 +34,9 @@ print("all_security_groups :", all_security_groups)
 print("asgs: ", all_security_groups.address)
 
 deny_public_ssh_sg_rules = rule {
-	all all_security_groups.change.after.ingress as _, ingress {
+	all all_security_groups.change.after.ingress else {} as _, ingress {
 		ingress.to_port is 22 
 	}
-	else {}
 }
 
 print("deny_public_ssh_sg_rules value: ", deny_public_ssh_sg_rules)
