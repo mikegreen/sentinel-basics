@@ -23,7 +23,7 @@ deny_public_ssh_acl_rules = rule {
 }
 
 # Check security group rules
-all_security_groups = filter tfplan.resource_changes as _, rc {
+all_security_groups = filter tfplan.resource_changes as address, rc {
 	rc.mode is "managed" and
  	rc.type is "aws_security_group" and
 	rc.change.after.type is "ingress" and
