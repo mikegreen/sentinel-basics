@@ -16,7 +16,7 @@ public_ssh_acls = filter tfplan.resource_changes as _, resource_changes {
 allSSHPublicSGs = filter tfplan.resource_changes as _, rc {
 	rc.mode is "managed" and
 	rc.type is "aws_security_group" and
-	(rc.change.actions contain "create" or
+	(rc.change.actions contains "create" or
 		rc.change.actions is ["update"])
 }
 
