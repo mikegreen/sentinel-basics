@@ -28,8 +28,8 @@ print("allSSHPublicSGs length", length(allSSHPublicSGs))
 print(allSSHPublicSGs)
 
 deny_public_ssh_sg_rules = rule {
-	any allSSHPublicSGs.change.after.ingress as _, ingress {
-		ingress.to_port is 22 
+	any allSSHPublicSGs.change.after.ingress as i {
+		i.to_port is 22 
 	}
 }
 
