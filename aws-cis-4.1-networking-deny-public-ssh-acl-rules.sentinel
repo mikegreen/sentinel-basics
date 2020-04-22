@@ -33,11 +33,11 @@ deny_public_ssh_sg_rules = rule {
 	}
 }
 
-print("deny_public_ssh_sg_rules value: ", deny_public_ssh_sg_rules)
+# print("deny_public_ssh_sg_rules value: ", deny_public_ssh_sg_rules)
 
-#deny_public_ssh_acl_rules = rule {
-#	length(public_ssh_acls) == 0
-#}
+deny_public_ssh_acl_rules = rule {
+	length(public_ssh_acls) == 0
+}
 
 main = rule {
 	deny_public_ssh_acl_rules 
