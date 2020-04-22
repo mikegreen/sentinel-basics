@@ -30,9 +30,8 @@ all_security_groups = filter tfplan.resource_changes as _, rc {
 		rc.change.actions contains "update")
 }
 
-print("all_security_groups length: ", length(all_security_groups))
-print(all_security_groups)
-print("keys: ", keys(all_security_groups.change.after))
+print("all_security_groups :", all_security_groups)
+print("keys: ", keys(all_security_groups.change.after.ingress))
 
 #deny_public_ssh_sg_rules = rule {
 #	any all_security_groups as _, sgs {
