@@ -20,7 +20,7 @@ print("public_ssh_acls length", length(public_ssh_acls))
 all_security_groups = filter tfplan.resource_changes as _, rc {
 	rc.mode is "managed" and
 # 	rc.type is "aws_security_group" and
-	rc.type is "ingress" and
+	rc.change.after.type is "ingress" and
 	(rc.change.actions contains "create" or
 		rc.change.actions is ["update"])
 }
