@@ -17,18 +17,19 @@ public_ssh_acls = filter tfplan.resource_changes as _, resource_changes {
 
 print("public_ssh_acls length", length(public_ssh_acls))
 
-allSSHPublicSGs = filter tfplan.resource_changes as _, rc {
+all_security_groups = filter tfplan.resource_changes as _, rc {
 	rc.mode is "managed" and
-	rc.type is "aws_security_group" and
+# 	rc.type is "aws_security_group" and
+	rc.type is "ingress" and
 	(rc.change.actions contains "create" or
 		rc.change.actions is ["update"])
 }
 
-print("allSSHPublicSGs length", length(allSSHPublicSGs))
-print(allSSHPublicSGs)
+print("all_security_groups length", length(all_security_groups))
+print(all_security_groups)
 
 deny_public_ssh_sg_rules = rule {
-	any allSSHPublicSGs.change.after.ingress as i {
+	any all_security_groups.change.after.ingress as i {
 		i.to_port is 22 
 	}
 }
