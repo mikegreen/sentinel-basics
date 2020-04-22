@@ -34,8 +34,13 @@ print("all_security_groups length: ", length(all_security_groups))
 print(all_security_groups)
 print("keys: ", keys(all_security_groups.change.after.ingress))
 
+#deny_public_ssh_sg_rules = rule {
+#	any all_security_groups as _, sgs {
+#		keys(sgs.change.after.ingress) .to_port is 22 
+#	}
+#}
 
-print("deny_public_ssh_sg_rules value: ", deny_public_ssh_sg_rules)
+# print("deny_public_ssh_sg_rules value: ", deny_public_ssh_sg_rules)
 
 main = rule {
 	deny_public_ssh_acl_rules 
