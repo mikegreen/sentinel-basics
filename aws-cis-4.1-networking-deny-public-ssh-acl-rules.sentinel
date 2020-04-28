@@ -1,9 +1,9 @@
 # aws-cis-4.1-networking-deny-public-ssh-acl-rules.sentinel
 # from https://github.com/mikegreen/terraform-foundational-policies-library/tree/master/cis/aws/networking/aws-cis-4.1-networking-deny-public-ssh-acl-rules
 
-print("CIS 4.1: Ensure no security groups allow ingress from 0.0.0.0/0 to port 22")
-
 import "tfplan/v2" as tfplan
+
+print("CIS 4.1: Ensure no security groups allow ingress from 0.0.0.0/0 to port 22")
 
 disallowed_cidr_blocks = [
   "0.0.0.0/0",
