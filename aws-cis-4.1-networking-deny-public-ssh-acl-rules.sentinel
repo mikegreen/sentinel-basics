@@ -27,11 +27,11 @@ disallowed_cidr_blocks = [
   "0.0.0.0/0",
 ]
 
-all_security_groups = filter tfplan.resource_changes as _, rc {
-	rc.mode is "managed" and
- 	rc.type is "aws_security_group" and
-	(rc.change.actions contains "create" or
-		rc.change.actions contains "update")
+all_security_groups = filter tfplan.resource_changes as _, resource_changes {
+	resource_changes.mode is "managed" and
+ 	resource_changes.type is "aws_security_group" and
+	(resource_changes.change.actions contains "create" or
+		resource_changes.change.actions contains "update")
 }
 
 print("ingress:",all_security_groups.change.after.ingress.cidr_blocks)
