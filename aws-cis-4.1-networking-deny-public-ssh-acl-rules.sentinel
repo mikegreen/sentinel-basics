@@ -36,12 +36,11 @@ all_security_groups = filter tfplan.resource_changes else {} as _, resource_chan
 
 print("ingress:",all_security_groups)
 
-public_ssh_sg_rules = {
+public_ssh_sg_rules = 
 	all all_security_groups.change.after.ingress else {} as _, ingress {
 		ingress.to_port is 22 and
 		ingress.cidr_blocks not contains disallowed_cidr_blocks 
 	}
-}
 
 deny_public_ssh_sg_rules = rule {
 	length(public_ssh_sg_rules) == 0
