@@ -43,7 +43,7 @@ deny_public_ssh_sg_rules = rule {
 	}
 }
 
-pinrt(deny_public_ssh_sg_rules)
+print(deny_public_ssh_sg_rules)
 
 main = rule {
 	deny_public_ssh_acl_rules and
