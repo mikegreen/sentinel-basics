@@ -34,7 +34,7 @@ all_security_groups = filter tfplan.resource_changes as _, rc {
 		rc.change.actions contains "update")
 }
 
-print("ingress:",all_security_groups.change.after.ingress)
+print("ingress:",all_security_groups.change.after.ingress.cidr_blocks)
 
 deny_public_ssh_sg_rules = rule {
 	all all_security_groups.change.after.ingress else {} as _, ingress {
