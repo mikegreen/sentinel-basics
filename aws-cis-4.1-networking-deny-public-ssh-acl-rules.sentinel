@@ -5,7 +5,7 @@ import "tfplan/v2" as tfplan
 
 print("CIS 4.1: Ensure no security groups allow ingress from 0.0.0.0/0 to port 22")
 
-# Check network ACLs
+# Check ACL rules aws_network_acl_rule
 public_ssh_acls = filter tfplan.resource_changes as _, resource_changes {
 	resource_changes.mode is "managed" and
 		resource_changes.type is "aws_network_acl_rule" and
@@ -16,22 +16,13 @@ public_ssh_acls = filter tfplan.resource_changes as _, resource_changes {
 			resource_changes.change.actions is ["update"])
 }
 
-print("public_ssh_acls length: ", length(public_ssh_acls))
-
-deny_public_ssh_acl_rules = rule {
-	length(public_ssh_acls) == 0
-}
-
-# Check security group rules
+# Check security group rules aws_security_group
 all_security_groups = filter tfplan.resource_changes as _, rc {
 	rc.mode is "managed" and
  	rc.type is "aws_security_group" and
 	(rc.change.actions contains "create" or
 		rc.change.actions contains "update")
 }
-
-print("all_security_groups :", all_security_groups)
-print("asgs: ", all_security_groups.address)
 
 deny_public_ssh_sg_rules = rule {
 	all all_security_groups.change.after.ingress else {} as _, ingress {
@@ -40,9 +31,7 @@ deny_public_ssh_sg_rules = rule {
 	}
 }
 
-print("deny_public_ssh_sg_rules value: ", deny_public_ssh_sg_rules)
-
 main = rule {
-	deny_public_ssh_acl_rules 
-	# and deny_public_ssh_sg_rules
+	deny_public_ssh_acl_rules and
+	deny_public_ssh_sg_rules
 }
