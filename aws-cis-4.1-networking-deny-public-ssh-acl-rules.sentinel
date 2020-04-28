@@ -38,7 +38,7 @@ print("ingress:",all_security_groups)
 
 deny_public_ssh_sg_rules = rule {
 	all all_security_groups.change.after.ingress else {} as _, ingress {
-		ingress.to_port is 22 and
+		ingress.to_port is 23 and
 		ingress.cidr_blocks not contains disallowed_cidr_blocks 
 	}
 }
