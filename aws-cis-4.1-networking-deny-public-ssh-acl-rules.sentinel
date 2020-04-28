@@ -16,6 +16,11 @@ public_ssh_acls = filter tfplan.resource_changes as _, resource_changes {
 			resource_changes.change.actions is ["update"])
 }
 
+deny_public_ssh_acl_rules = rule {
+	length(public_ssh_acls) == 0
+}
+
+
 # Check security group rules aws_security_group
 all_security_groups = filter tfplan.resource_changes as _, rc {
 	rc.mode is "managed" and
