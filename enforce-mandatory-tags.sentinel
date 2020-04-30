@@ -28,7 +28,5 @@ violatingSecGroups = plan.filter_attribute_not_contains_list(allSecGroups,
 # Main rule
 main = rule {
   length(violatingEC2Instances["messages"]) is 0
-  and 
   length(violatingSecGroups["messages"]) is 0
-
 }
