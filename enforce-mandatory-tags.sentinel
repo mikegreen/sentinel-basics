@@ -26,7 +26,7 @@ violatingSecGroups = plan.filter_attribute_not_contains_list(allSecGroups,
                         "tags", mandatory_tags, true)
 
 # Main rule
+validated = length(violatingEC2Instances["messages"]) is 0 and length(violatingSecGroups["messages"]) is 0
 main = rule {
-  (length(violatingEC2Instances["messages"]) is 0
-  and length(violatingSecGroups["messages"]) is 0) else true
+  validated is true
 }
