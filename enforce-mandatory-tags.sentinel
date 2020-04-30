@@ -16,7 +16,19 @@ allEC2Instances = plan.find_resources("aws_instance")
 violatingEC2Instances = plan.filter_attribute_not_contains_list(allEC2Instances,
                         "tags", mandatory_tags, true)
 
+
+# Get all security groups
+allSecGroups = plan.find_resources("aws_security_group")
+
+# Filter to security groups with violations
+# Warnings will be printed for all violations since the last parameter is true
+violatingSecGroups = plan.filter_attribute_not_contains_list(allSecGroups,
+                        "tags", mandatory_tags, true)
+
 # Main rule
 main = rule {
   length(violatingEC2Instances["messages"]) is 0
+  and 
+  length(violatingSecGroups["messages"]) is 0
+
 }
