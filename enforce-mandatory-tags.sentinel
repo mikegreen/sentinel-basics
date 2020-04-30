@@ -1,4 +1,4 @@
-# From https://github.com/hashicorp/terraform-guides/blob/master/governance/third-generation/aws/enforce-mandatory-tags.sentinel
+# Modified from https://github.com/hashicorp/terraform-guides/blob/master/governance/third-generation/aws/enforce-mandatory-tags.sentinel
 # This policy uses the Sentinel tfplan/v2 import to require that
 # all EC2 instances have all mandatory tags
 
