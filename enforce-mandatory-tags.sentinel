@@ -6,7 +6,7 @@
 import "tfplan-functions" as plan
 
 # List of mandatory tags
-mandatory_tags = ["environment", "Owner"]
+mandatory_tags = ["environment", "Owner","managed_by"]
 
 # Get all EC2 instances
 allEC2Instances = plan.find_resources("aws_instance")
