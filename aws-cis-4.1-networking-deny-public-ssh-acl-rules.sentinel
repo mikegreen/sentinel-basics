@@ -70,6 +70,8 @@ deny_all_open_protocol_security_group_rules = rule {
 	}
 }
 
+print("deny_all_open_protocol_security_group_rules: ",deny_all_open_protocol_security_group_rules)
+
 main = rule {
 	deny_public_ssh_security_groups and
 	deny_public_ssh_security_group_rules and
